@@ -5,3 +5,7 @@
 3. **`fetch` doesn't throw on 404 or 500.** It only rejects on network failure. Check `response.ok` yourself.
 4. **Top-level names can shadow built-ins.** `const URL = ...` shadows the global `URL` class. No error, it's just legal. Python would let you shadow `id` or `list` too.
 5. **An object isn't iterable like a dict.** Python `for k, v in d.items()` becomes `Object.entries(obj)` in JS, which returns an array of `[key, value]` pairs.
+6. **`for...in` vs `for...of`.** On an array, `for (const x of xs)` gives values like Python's `for x in xs`. `for (const x in xs)` gives the indices as strings. Use `for...of`.
+7. **`querySelector` returns `null` on a miss, not an exception.** The crash comes later, at `null.append(...)`: "Cannot read properties of null". Python would raise `KeyError` at the lookup.
+8. **Declarations are required, and `const` only locks the name.** Python has `x = 0`. JS needs `const x = 0` (no reassign) or `let x = 0` (reassign). `const list = []; list.push(1)` is fine, but `list = []` is a TypeError.
+9. **One number type.** No int or float split. `0` and `0.0` are the same value, `typeof` gives `"number"`, and `0.1 + 0.2 !== 0.3` as in Python.
