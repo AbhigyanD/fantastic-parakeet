@@ -10,7 +10,7 @@ let favorites = new Set();   // Set of currency codes (like a Python set)
 
 // ---------- BLOCK 2: render ----------
 function renderRates(rows) {
-    const tbody = document.querySelector("#rates-body"); 
+    const tbody = document.querySelector("#rates-body");  // get the table body element
     tbody.replaceChildren()  // clear the table body 
     for (const row of rows){
         const tr = document.createElement("tr"); // create a new table row
@@ -26,13 +26,11 @@ function renderRates(rows) {
 
 // ---------- BLOCK 3: search + sort ----------
 // function getVisibleRates() {
-//     Start from allRates.
-//     1. keep rows where row.code includes searchText (filter + toUpperCase on both sides
-//        so "eur" matches "EUR"). Uses .filter().
-//     2. sort by code, direction depends on sortAscending.
-//        Careful: .sort() mutates! Sort a COPY: [...rows].sort(...)   (spread = Python's [*rows])
-//     3. return the new array. Does NOT touch the DOM.
-// }
+function getVisibleRates() {
+    let rows = allRates.filter(row => row.code.toUpperCase().includes(searchText.toUpperCase())); // 1. filter by searchText
+    rows = [...rows].sort((a, b) => sortAscending ? a.code.localeCompare(b.code) : b.code.localeCompare(a.code)); // 2. sort by code, direction depends on sortAscending
+    return rows; // 3. return the new array
+}
 //
 // function update() {
 //     renderRates(getVisibleRates());   // one place that redraws. Call it after every state change.
