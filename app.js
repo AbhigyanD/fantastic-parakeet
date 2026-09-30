@@ -25,25 +25,24 @@ function renderRates(rows) {
 }
 
 // ---------- BLOCK 3: search + sort ----------
-// function getVisibleRates() {
 function getVisibleRates() {
     let rows = allRates.filter(row => row.code.toUpperCase().includes(searchText.toUpperCase())); // 1. filter by searchText
     rows = [...rows].sort((a, b) => sortAscending ? a.code.localeCompare(b.code) : b.code.localeCompare(a.code)); // 2. sort by code, direction depends on sortAscending
     return rows; // 3. return the new array
 }
 //
-// function update() {
-//     renderRates(getVisibleRates());   // one place that redraws. Call it after every state change.
-// }
+function updates() {
+    renderRates(getVisibleRates()); // 1. get the visible rates and render them
+}
 //
 // Wire up events (after the page loads, so after defer it is safe at top level):
-//   const searchInput = document.querySelector("#search");
-//   searchInput.addEventListener("input", (event) => { searchText = event.target.value; update(); });
-//   sort button "click": flip sortAscending, update button text, update().
+const searchInput = document.querySelector("#search");
+searchInput.addEventListener("input", (event) => { searchText = event.target.value; updates(); });
+//   sort button "click": flip sortAscending, update button text, updates().
 
 // ---------- BLOCK 4: favorites ----------
 // function toggleFavorite(code) {
-//     if favorites has code -> delete it, else add it. Then update().
+//     if favorites has code -> delete it, else add it. Then updates().
 // }
 // In renderRates: show "★" if favorites.has(row.code) else "☆".
 // Click on the star calls toggleFavorite(row.code).
