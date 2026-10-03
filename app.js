@@ -38,24 +38,33 @@ function updates() {
 // Wire up events (after the page loads, so after defer it is safe at top level):
 const searchInput = document.querySelector("#search");
 searchInput.addEventListener("input", (event) => { searchText = event.target.value; updates(); });
-//   sort button "click": flip sortAscending, update button text, updates().
+const sortBtn = document.querySelector("#sort-btn");
+const sortLabel = () => `Sort: ${sortAscending ? "A→Z" : "Z→A"}`;
+sortBtn.textContent = sortLabel();
+sortBtn.addEventListener("click", () => {
+    sortAscending = !sortAscending;
+    sortBtn.textContent = sortLabel();
+    updates();
+});
 
 // ---------- BLOCK 4: favorites ----------
-// function toggleFavorite(code) {
-//     if favorites has code -> delete it, else add it. Then updates().
-// }
-// In renderRates: show "★" if favorites.has(row.code) else "☆".
-// Click on the star calls toggleFavorite(row.code).
-// Extra: show favorites first in getVisibleRates() (sort key: favorite before non-favorite).
-// Note: favorites reset on reload. That's expected. localStorage comes Thursday.
-
+function toggleFavorite(code) {
+    if (favorites.has(code)){
+        favorites.delete(code);
+    }
+    else {
+        favorites.add(code);
+    }
+    updates();
+}
 // ---------- LOAD DATA ----------
 async function main() {
     const response = await fetch(API_URL);
     const data = await response.json();
     const rows = Object.entries(data.rates).map(([code, rate]) => ({ code, rate }));
-    renderRates(rows);
-    // BLOCK 3+: set allRates = rows and call update() instead of renderRates(rows)
+    allRates = rows;
+    updates();
+    // BLOCK 3+: set allRates = rows and call updates() instead of renderRates(rows)
 }
 
 main();
