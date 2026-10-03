@@ -9,6 +9,10 @@ let favorites = new Set();   // Set of currency codes (like a Python set)
 //          (look up: Set.add, Set.has, Set.delete)
 
 // ---------- BLOCK 2: render ----------
+function renderRates(rows) {
+    const tbody = document.querySelector("#rates-body");
+    tbody.replaceChildren();
+
 for (const row of rows) {
     const tr = document.createElement("tr");
 
@@ -26,7 +30,7 @@ for (const row of rows) {
     tr.append(tdStar, tdCode, tdRate);
     tbody.append(tr);
 }
-
+}
 // ---------- BLOCK 3: search + sort ----------
 function getVisibleRates() {
     let rows = allRates.filter(row => row.code.toUpperCase().includes(searchText.toUpperCase())); // 1. filter by searchText
