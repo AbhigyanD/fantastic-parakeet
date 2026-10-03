@@ -9,19 +9,22 @@ let favorites = new Set();   // Set of currency codes (like a Python set)
 //          (look up: Set.add, Set.has, Set.delete)
 
 // ---------- BLOCK 2: render ----------
-function renderRates(rows) {
-    const tbody = document.querySelector("#rates-body");  // get the table body element
-    tbody.replaceChildren()  // clear the table body 
-    for (const row of rows){
-        const tr = document.createElement("tr"); // create a new table row
-        const td1 = document.createElement("td"); // create a new table cell
-        td1.textContent = row.code; // set the text of the cell to the currency code
-        const td2 = document.createElement("td"); // create a new table cell
-        td2.textContent = row.rate; // set the text of the cell to the currency rate
-        tr.append(td1, td2); // append the cells to the row
-        tbody.append(tr); // append the row to the table body
-    }
-    // BLOCK 4: also add a star button cell per row (see toggleFavorite below)
+for (const row of rows) {
+    const tr = document.createElement("tr");
+
+    const tdStar = document.createElement("td");
+    const starBtn = document.createElement("button");
+    starBtn.textContent = favorites.has(row.code) ? "★" : "☆";
+    starBtn.addEventListener("click", () => toggleFavorite(row.code));
+    tdStar.append(starBtn);
+
+    const tdCode = document.createElement("td");
+    tdCode.textContent = row.code;
+    const tdRate = document.createElement("td");
+    tdRate.textContent = row.rate;
+
+    tr.append(tdStar, tdCode, tdRate);
+    tbody.append(tr);
 }
 
 // ---------- BLOCK 3: search + sort ----------
